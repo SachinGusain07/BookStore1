@@ -5,8 +5,11 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
 import Loader from '../Loader/Loader'
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../store/Authn';
 const Login = ({handleClick}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [IsLoading, setIsLoading] = useState(false);
 
@@ -33,11 +36,14 @@ const Login = ({handleClick}) => {
 
       const toShow = `Welcome ${response.data.username}`;
       const Book_user = JSON.stringify(response.data) 
+      
       localStorage.setItem("Book_user ", Book_user)
       toast.success(toShow);
       console.log(response);
-      console.log(response.headers.jwt);
+      
       setIsLoading(false);
+      dispatch(authActions.login());
+      dispatch(authActions.changeRole(response.data.role));
       console.log(document.cookie);
       console.log(document.cookies);
       
@@ -45,6 +51,7 @@ const Login = ({handleClick}) => {
     }}catch(err) {
       console.log("error in login", err);
       toast.error(err.response.data.message);
+      setIsLoading(false);
     }
   }
 

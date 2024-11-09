@@ -10,7 +10,9 @@ const AllBook = () => {
     const fetch = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/get-all-books"
+          "http://localhost:3000/api/v1/get-all-books" ,{
+            withCredentials : true,
+          }
         );
 
         setData(response.data.data);
@@ -28,7 +30,7 @@ const AllBook = () => {
         </h4>
         {!Data && (
           <div className="flex items-center justify-center">
-            <Loader />
+            <Loader/>
           </div>
         )}
         <div className=" ml-20  mt-10  flex flex-wrap gap-20">

@@ -92,9 +92,10 @@ router.put("/update-address", protectRoute, async (req, res) => {
 
 router.post("/logout" , async (req, res) => {
     try {
-     
-      res.cookie("jwt", "", { maxAge: 0 });
+      res.clearCookie("jwt" , { httpOnly: true, sameSite: "strict" });
+      res.cookie("jwt", " ", { maxAge: 0  ,httpOnly: true, sameSite: "strict" });
       res.status(200).json({ message: "Logged out successfully" });
+      console.log("Logged out successfully");
     } catch (error) {
       console.log("Error in logout controller", error.message);
       res.status(500).json({ error: "Internal Server Error" });
