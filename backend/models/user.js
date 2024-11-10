@@ -25,7 +25,7 @@ const user = new mongoose.Schema({
     },
     avatar :{
         type : String,
-        default : './asset/Profilepic'
+        default : '/asset/Profilepic'
     },
     role :{
         type :String   ,

@@ -37,7 +37,7 @@ const Login = ({handleClick}) => {
       const toShow = `Welcome ${response.data.username}`;
       const Book_user = JSON.stringify(response.data) 
       
-      localStorage.setItem("Book_user ", Book_user)
+      localStorage.setItem("Book_user", Book_user)
       toast.success(toShow);
       console.log(response);
       

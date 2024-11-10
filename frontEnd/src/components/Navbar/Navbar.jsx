@@ -7,6 +7,8 @@ import { login, signup } from '../../store/Login_signup';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { authActions } from '../../store/Authn';
+import { CgProfile } from "react-icons/cg";
+
 
 
 const Navbar = () => {
@@ -26,6 +28,8 @@ const Navbar = () => {
       console.log(logout);
       toast.success(logout.data.message);
       dispatch(authActions.logout());
+      // Remove a specific item from localStorage
+   localStorage.removeItem("Book_user");
     } catch (err) {
       console.log("error in logout", err);
       toast.error(err.response?.data?.message || "Error logging out");
@@ -73,9 +77,18 @@ const Navbar = () => {
         <div className="nav-link-bookHeaven block md:flex items-center gap-4">
           <div className="hidden md:flex gap-4 lg:text-2xl text-xs">
             {links.map((item, i) => (
+             <React.Fragment key={i}>
+             {item.title== "Profile" ? (
+               <Link to={item.link} className="hover:text-blue-500 transition-all  duration-500 cursor-pointer" key={i}>
+               <CgProfile className=" h-8 w-10"/>
+             </Link>
+             )
+             :      (
               <Link to={item.link} className="hover:text-blue-500 transition-all duration-500 cursor-pointer" key={i}>
-                {item.title}
-              </Link>
+              {item.title}
+            </Link>
+             )}
+             </React.Fragment>
             ))}
           </div>
 
@@ -91,7 +104,7 @@ const Navbar = () => {
                   Sign Up
                 </Link>
               </>
-            ): (<Link  className="px-2 py-1 border-2 border-red-800 rounded hover:bg-red-400 hover:text-zinc-900 transition-colors duration-700"
+            ): (<Link  className="px-1 py-1 border-2 border-red-800 rounded hover:bg-red-500 hover:text-zinc-900 transition-colors duration-700 text-lg"
               onClick = {LogoutHandle}> Logout</Link>)}
           </div>
 
@@ -107,15 +120,30 @@ const Navbar = () => {
       {/* Responsive mobile menu */}
       <div className={`${MobileNav} bg-zinc-800 h-screen absolute top-0 left-0 w-full z-40 flex flex-col items-center justify-center gap-5`}>
         {links.map((item, i) => (
-          <Link
+
+          <React.Fragment key={i}>
+         {
+          
+   
+          item.title == "Profile" ? ( <Link
             to={item.link}
-            className="hover:text-blue-500 w-full flex justify-center transition-all duration-500 cursor-pointer text-white text-4xl font-semibold"
-            key={i}
+            className="hover:text-blue-500 hover:bg-white px-2 py-1 text-center flex justify-center transition-all duration-500 cursor-pointer border border-blue-500 rounded text-white text-4xl font-semibold "
+            key={i} 
             onClick={() => setMobileNav("hidden")}
           >
             {item.title}
           </Link>
+        ): ( <Link
+          to={item.link}
+          className="hover:text-blue-500 w-full flex justify-center transition-all duration-500 cursor-pointer text-white text-4xl font-semibold"
+          key={i}
+          onClick={() => setMobileNav("hidden")}
+        >
+          {item.title}
+        </Link>)}
+        </React.Fragment>
         ))}
+      
 
         {!isLoggedIn ? (
           <>
@@ -124,6 +152,7 @@ const Navbar = () => {
               className="text-white text-4xl font-semibold px-8 pb-3 item-center border border-blue-500 rounded hover:bg-slate-50 hover:text-zinc-900 transition-colors duration-700"
               onClick={() => {
                 setMobileNav("hidden");
+                handleLogin();
                 
               }}
             >
@@ -134,6 +163,8 @@ const Navbar = () => {
               className="text-4xl font-semibold px-8 pb-3 py-1 rounded bg-blue-500 text-black hover:bg-slate-50 hover:text-zinc-900 transition-colors duration-700"
               onClick={() => {
                 setMobileNav("hidden");
+                handleSignup();
+
                
               }}
             >
@@ -141,7 +172,7 @@ const Navbar = () => {
               Sign Up
             </Link>
           </>
-        ): (<Link  className="px-2 py-1 border-2 border-red-800 rounded hover:bg-red-400 hover:text-zinc-900 transition-colors duration-700"
+        ): (<Link  className="px-2 py-1 border-2 border-red-800 rounded  text-lg hover:bg-red-400 text-white hover:text-zinc-900 transition-colors duration-700"
         onClick = {LogoutHandle}> Logout</Link>)}
       </div>
     </>

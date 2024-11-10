@@ -9,9 +9,23 @@ import Cart from './pages/Cart.jsx'
 import ViewBookDetails from './components/ViewBookDetails/ViewBookDetails.jsx'
 import LoginSignUp from './pages/LogInSignUp.jsx'
 import { Toaster } from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { authActions } from './store/Authn.js'
+import { useEffect } from 'react'
 
 
 const App = () => {
+  const dispatch = useDispatch();
+  const role = useSelector((state) => state.auth.role);
+  useEffect(() => {
+    if(
+    localStorage.getItem("Book_user._id") && 
+    localStorage.getItem("Book_user.username") &&
+    localStorage.getItem("Book_user.role")
+  ) {
+    dispatch(authActions.changeRole(localStorage.getItem("Book_user.role")));
+  }
+})
   return (
     <div className="flex flex-col min-h-screen">
       <Toaster  
