@@ -18,23 +18,6 @@ const Navbar = () => {
   // Local isLoggedIn state to control the UI
   const [isLoggedIn, setIsLoggedIn] = useState(reduxIsLoggedIn);
 
-  const LogoutHandle = async () => {
-    try {
-      const logout = await axios.post(
-        "http://localhost:3000/api/v1/logout",
-        {},
-        { withCredentials: true } // Ensure cookies are included
-      );
-      console.log(logout);
-      toast.success(logout.data.message);
-      dispatch(authActions.logout());
-      // Remove a specific item from localStorage
-   localStorage.removeItem("Book_user");
-    } catch (err) {
-      console.log("error in logout", err);
-      toast.error(err.response?.data?.message || "Error logging out");
-    }
-  };
   
 
   // Synchronize local isLoggedIn with Redux state
@@ -104,8 +87,7 @@ const Navbar = () => {
                   Sign Up
                 </Link>
               </>
-            ): (<Link  className="px-1 py-1 border-2 border-red-800 rounded hover:bg-red-500 hover:text-zinc-900 transition-colors duration-700 text-lg"
-              onClick = {LogoutHandle}> Logout</Link>)}
+            ): ''}
           </div>
 
           <button
@@ -172,8 +154,7 @@ const Navbar = () => {
               Sign Up
             </Link>
           </>
-        ): (<Link  className="px-2 py-1 border-2 border-red-800 rounded  text-lg hover:bg-red-400 text-white hover:text-zinc-900 transition-colors duration-700"
-        onClick = {LogoutHandle}> Logout</Link>)}
+        ): ''}
       </div>
     </>
   );
